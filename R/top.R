@@ -69,7 +69,7 @@ get_reviewed_journals <- function(a) {
     fin <- page1$results %>% 
       janitor::clean_names() %>% 
       dplyr::mutate(reviewer_id = as.character(a))
-  } else {
+  } else if(page1$count > 10) {
     fin <- 2:ceiling(page1$count/10) %>%
       purrr::map_dfr(~{
         get_page(a, .x)
@@ -77,7 +77,7 @@ get_reviewed_journals <- function(a) {
       dplyr::bind_rows(page1$results) %>% 
       janitor::clean_names() %>% 
       dplyr::mutate(reviewer_id = as.character(a))    
-  }
+  } 
   
   return(fin) 
 }
