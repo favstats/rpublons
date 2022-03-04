@@ -56,37 +56,78 @@ function(verb = c("GET", "POST", "HEAD", "OPTIONS"),
     
     # authorization
     if (token == "") {
-        if (username == "" || password == "") {
-            stop("'token' is missing, as are 'username' and 'password'.\nUse 'publons_auth' to set an API token before continuing.")
-        }
-        token <- publons_auth(username, password)
+      if (Sys.getenv("PUBLONS_TOKEN") == "") {
+        stop("'token' is missing.\nUse 'publons_auth' to set an API token before continuing.")
+      }
     }
-    u <- paste0(base_url, endpoint)
-    auth_header <- add_headers(Authorization = paste0("Token ", token))
+  
+    if(endpoint == "researcher"){
+      u <- glue::glue("https://publons.com/{endpoint}/api/")
+    } else{
+      u <- paste0(base_url, endpoint, "/")
+    }
+  
+    auth_header <- httr::add_headers(Authorization = paste0("Token ", token))
     FUN <- switch(match.arg(verb), GET = httr::GET, POST = httr::POST, HEAD = httr::HEAD, OPTIONS = httr::OPTIONS)
-    if (length(body)) {
+    
+    if(base_url != "https://publons.com/api/"){
+      if (length(body)) {
         if (length(query)) {
-            r <- FUN(u, query = query, auth_header, ..., body = body, encode = "form")
+          r <- FUN(u, query = query, auth_header, ..., body = body, encode = "form")
         } else {
-            r <- FUN(u, auth_header, ..., body = body, encode = "form")
+          r <- FUN(u, auth_header, ..., body = body, encode = "form")
         }
+      } else {
+        if (length(query)) {
+          r <- FUN(u, auth_header, ..., query = query)
+        } else {
+          r <- FUN(u, auth_header, ...)
+        }
+      }      
     } else {
+      if (length(body)) {
         if (length(query)) {
-            r <- FUN(u, auth_header, ..., query = query)
+          r <- FUN(u, query = query, ..., body = body, encode = "form")
         } else {
-            r <- FUN(u, auth_header, ...)
+          r <- FUN(u, ..., body = body, encode = "form")
         }
+      } else {
+        if (length(query)) {
+          r <- FUN(u, ..., query = query)
+        } else {
+          r <- FUN(u, ...)
+        }
+      }        
     }
+    
+
     stop_for_status(r)
     return(content(r, "text", encoding = "UTF-8"))
 }
 
 #' @rdname rpublons
 #' @export
-publons_auth <- function(username, password) {
-    r <- httr::POST("https://publons.com/api/v2/token/", body = list(username = username, password = password), encode = "form")
-    stop_for_status(r)
-    token <- content(r, encoding = "UTF-8")$token
-    Sys.setenv("PUBLONS_TOKEN" = token)
-    return(token)
+publons_auth <- function() {
+  
+    # if(Sys.getenv("PUBLONS_USERNAME") == "" & missing(username)){
+    #   username <- readline(prompt = "Please enter your Publons user name")
+    # } 
+    # 
+    # if(Sys.getenv("PUBLONS_PASSWORD") == "" & missing(password)){
+    #   password <- readline(prompt = "Please enter your Publons password")
+    # } 
+  
+    # r <- httr::POST("https://publons.com/api/v2/token/", body = list(username = username, password = password), encode = "form")
+    # stop_for_status(r)
+    # token <- content(r, encoding = "UTF-8")$token
+  
+    cat("Please find and copy your token from here: https://publons.com/api/v2/\n\nNote: you have to be logged into your publons account.\n\n")
+  
+    token <- readline(prompt = "Please enter your token: ")
+  
+    set_renv("PUBLONS_TOKEN" = token)
+    
+    print("Token has been set!")
+    
+    # return(token)
 }

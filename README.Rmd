@@ -1,13 +1,13 @@
 # R Client for Publons.com
 
-**rpublons** is a package for extracting data from [Publons.com](https://publons.com), a site for publicly reporting scholarly peer review activity. Use of the package requires a Publons account. The username and password combination are used retrieve an API token. You can either set your username and password via environment variables or use `publons_auth()` to retrieve (and set) the API token as an environment variable. This is long-lived, so you can also set the `PUBLONS_TOKEN` environment variable (once you have it) and avoid the authorization handshake.
+**rpublons** is a package for extracting data from [Publons.com](https://publons.com), a site for publicly reporting scholarly peer review activity. Use of the package requires a Publons account. Use `publons_auth()` to retrieve (and set) the API token as an environment variable. Alternatively, you can also set the `PUBLONS_TOKEN` environment variable (retrieve it from [here](https://publons.com/api/v2/)) and avoid the authorization handshake.
 
 The package currently provides a minimalist API client.
 
 ```{r}
-library("rpublons")
+library(rpublons)
 if (Sys.getenv("PUBLONS_TOKEN") == "") {
-    publons_auth("myusername", "mypassword")
+    publons_auth()
 }
 
 # get list of academics
@@ -42,6 +42,6 @@ This package is not yet on CRAN. To install the latest development version you c
 if (!require("remotes")) {
     install.packages("remotes")
 }
-remotes::install_github("leeper/rpublons")
+remotes::install_github("favstats/rpublons")
 ```
 

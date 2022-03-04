@@ -8,13 +8,19 @@
 \alias{publons_auth}
 \title{rpublons}
 \usage{
-publons(verb = c("GET", "POST", "HEAD", "OPTIONS"), endpoint, body = NULL,
-  query = NULL, ..., base_url = "https://publons.com/api/v2/",
+publons(
+  verb = c("GET", "POST", "HEAD", "OPTIONS"),
+  endpoint,
+  body = NULL,
+  query = NULL,
+  ...,
+  base_url = "https://publons.com/api/v2/",
   token = Sys.getenv("PUBLONS_TOKEN"),
   username = Sys.getenv("PUBLONS_USERNAME"),
-  password = Sys.getenv("PUBLONS_PASSWORD"))
+  password = Sys.getenv("PUBLONS_PASSWORD")
+)
 
-publons_auth(username, password)
+publons_auth()
 }
 \arguments{
 \item{verb}{A character string containing an HTTP request verb.}

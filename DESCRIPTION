@@ -2,18 +2,26 @@ Package: rpublons
 Type: Package
 Title: Client for Publons.com
 Version: 0.1.1
-Date: 2017-05-18
+Date: 2022-03-04
 Authors@R: c(person("Thomas J.", "Leeper",
                     role = c("aut", "cre"), 
                     email = "thosjleeper@gmail.com",
-                    comment = c(ORCID = "0000-0003-4097-6326"))
+                    comment = c(ORCID = "0000-0003-4097-6326")),
+            person("Fabio", "Votta",
+                    role = c("aut", "cre"), 
+                    email = "fabio.votta@gmail.com",
+                    comment = c(ORCID = "0000-0002-3143-5942"))
              )
 Description: Extract review information information from Publons <https://publons.com>.
 License: MIT + file LICENSE
-URL: https://github.com/leeper/publons
-BugReports: https://github.com/leeper/publons/issues
+URL: https://github.com/favstats/publons
+BugReports: https://github.com/favstats/publons/issues
 Imports:
-    httr
+    httr,
+    magrittr,
+    jsonlite,
+    tidyr,
+    
 Suggests:
     testthat
-RoxygenNote: 6.0.1
+RoxygenNote: 7.1.2
