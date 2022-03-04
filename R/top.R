@@ -64,8 +64,9 @@ get_reviewed_journals <- function(a) {
   page1 <- jsonlite::fromJSON(glue::glue("https://publons.com/api/profile/journal/reviewed/{a}"))
   
   # a <- 1722571
-  
-  if(page1$count <= 10){
+  if(page1$count == 0){
+    return(NULL)
+  } else if(page1$count <= 10){
     fin <- page1$results %>% 
       janitor::clean_names() %>% 
       dplyr::mutate(reviewer_id = as.character(a))
