@@ -48,6 +48,7 @@ function(verb = c("GET", "POST", "HEAD", "OPTIONS"),
          endpoint, 
          body = NULL,
          query = NULL,
+         researcher_id = NULL,
          ...,
          base_url = "https://publons.com/api/v2/", 
          token = Sys.getenv("PUBLONS_TOKEN"),
@@ -61,9 +62,13 @@ function(verb = c("GET", "POST", "HEAD", "OPTIONS"),
       }
     }
   
+  
+  
     if(endpoint == "researcher"){
       u <- glue::glue("https://publons.com/{endpoint}/api/")
-    } else{
+    } else if(endpoint == "profile") {
+      u <- glue::glue("https://publons.com/api/profile/summary/{researcher_id}/")
+    } else {
       u <- paste0(base_url, endpoint, "/")
     }
   

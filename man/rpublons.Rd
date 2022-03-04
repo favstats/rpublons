@@ -13,6 +13,7 @@ publons(
   endpoint,
   body = NULL,
   query = NULL,
+  researcher_id = NULL,
   ...,
   base_url = "https://publons.com/api/v2/",
   token = Sys.getenv("PUBLONS_TOKEN"),

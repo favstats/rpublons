@@ -2,7 +2,7 @@ Package: rpublons
 Type: Package
 Title: Client for Publons.com
 Version: 0.1.1
-Date: 2022-03-04
+Date: 2017-05-18
 Authors@R: c(person("Thomas J.", "Leeper",
                     role = c("aut", "cre"), 
                     email = "thosjleeper@gmail.com",
@@ -10,14 +10,13 @@ Authors@R: c(person("Thomas J.", "Leeper",
              )
 Description: Extract review information information from Publons <https://publons.com>.
 License: MIT + file LICENSE
-URL: https://github.com/favstats/publons
-BugReports: https://github.com/favstats/publons/issues
+URL: https://github.com/leeper/rpublons
+BugReports: https://github.com/leeper/rpublons/issues
 Imports:
     httr,
     magrittr,
     jsonlite,
-    tidyr,
-    
+    tidyr
 Suggests:
     testthat
 RoxygenNote: 7.1.2
